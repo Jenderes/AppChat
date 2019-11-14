@@ -62,8 +62,7 @@
                     android:background="@color/colorPrimary"
                     android:textColor="@color/ColorWhite"
                     android:textAllCaps="false"
-                    android:textSize="18sp"
-                    android:visibility="invisible"/>
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/Cancel_friend_req"
@@ -73,8 +72,7 @@
                     android:background="@color/colorAccent"
                     android:textColor="@color/ColorWhite"
                     android:textAllCaps="false"
-                    android:textSize="18sp"
-                    android:visibility="invisible"/>
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
