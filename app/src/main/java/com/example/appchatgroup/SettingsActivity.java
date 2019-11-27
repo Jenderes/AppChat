@@ -3,6 +3,7 @@ package com.example.appchatgroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -43,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
     private  static final int GallaryPick = 1;
     private  StorageReference UserProfileImageRef;
     private ProgressDialog loadingBar;
+    private Toolbar SettingsToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,11 @@ public class SettingsActivity extends AppCompatActivity {
         StatusUpdate = (EditText)findViewById(R.id.profile_status_name);
         UpdateImageView = (ImageView)findViewById(R.id.profile_image);
         loadingBar = new ProgressDialog(this);
+        SettingsToolBar = (Toolbar)findViewById(R.id.settings_toolbar);
+        setSupportActionBar(SettingsToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle("Account Settings");
     }
 
     @Override
@@ -140,11 +147,11 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "Please write your status...", Toast.LENGTH_SHORT).show();
         }
         else{
-            HashMap<String,String> profileMap = new HashMap<>();
+            HashMap<String,Object> profileMap = new HashMap<>();
             profileMap.put("uid",currentUserID);
             profileMap.put("name",setUserName);
             profileMap.put("status",setStatusUpdate);
-            RootRef.child("Users").child(currentUserID).setValue(profileMap)
+            RootRef.child("Users").child(currentUserID).updateChildren(profileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

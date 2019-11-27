@@ -102,13 +102,10 @@ public class MainActivity extends AppCompatActivity {
         Intent LoginIntent = new Intent(MainActivity.this, LoginActivity.class);
         LoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(LoginIntent);
-        finish();
     }
     private void sendUserToSettingsActivity() {
         Intent SettingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-        SettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(SettingsIntent);
-        finish();
     }
 
     @Override
