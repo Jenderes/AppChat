@@ -37,6 +37,7 @@ public class ChatFragment extends Fragment {
     private DatabaseReference ChatsRef,UsersRef;
     private FirebaseAuth mAuth;
     private String currntUserID;
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -71,13 +72,14 @@ public class ChatFragment extends Fragment {
                     @Override
                     protected void onBindViewHolder(@NonNull final ChatsViewHolder chatsViewHolder, int i, @NonNull Contacts contacts) {
                         final String userIDs = getRef(i).getKey();
+                        final String[] retImage = {"default_image"};
                         UsersRef.child(userIDs).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     if (dataSnapshot.hasChild("image")) {
-                                        final String retImage = dataSnapshot.child("image").getValue().toString();
-                                        Picasso.get().load(retImage).into(chatsViewHolder.userImage);
+                                         retImage[0] = dataSnapshot.child("image").getValue().toString();
+                                        Picasso.get().load(retImage[0]).into(chatsViewHolder.userImage);
                                     }
 
                                     final String retName = dataSnapshot.child("name").getValue().toString();
@@ -91,6 +93,7 @@ public class ChatFragment extends Fragment {
                                             Intent chatIntent = new Intent(getContext(),ChatActivity.class);
                                             chatIntent.putExtra("visit_user_id",userIDs);
                                             chatIntent.putExtra("visit_user_name",retName);
+                                            chatIntent.putExtra("visit_image", retImage[0]);
                                             startActivity(chatIntent);
                                         }
                                     });
