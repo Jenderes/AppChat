@@ -7,4 +7,5 @@
     <color name="background_dark">#117700</color>
     <color name="background_bar">#047C80</color>
     <color name="gray_color">#CDD5D5</color>
+    <color name="light_gray_color">#DDDDDD</color>
 </resources>
