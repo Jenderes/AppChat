@@ -94,18 +94,17 @@ public class RequestsFragment extends Fragment {
                                                     final String requestUserName = dataSnapshot.child("name").getValue().toString();
                                                     final String requestUserStatus = dataSnapshot.child("status").getValue().toString();
                                                     requestViewHolder.userName.setText(requestUserName);
-                                                    requestViewHolder.userStatus.setText("Wants to add you as a friend");
+                                                    requestViewHolder.userStatus.setText("you have sent a request to " + requestUserName);
 
                                                 requestViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
                                                         CharSequence options[] = new CharSequence[]
                                                                 {
-                                                                        "Accept",
-                                                                        "Cancel"
+                                                                        "Cancel Chat Request"
                                                                 };
                                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                                        builder.setTitle(requestUserName+ " chat request");
+                                                        builder.setTitle("Already sent Request");
                                                         builder.setItems(options, new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,7 +143,7 @@ public class RequestsFragment extends Fragment {
                                                                         }
                                                                     });
                                                                 }
-                                                                if(i == 1){
+                                                                if(i == 0){
                                                                     ChatRequestsRef.child(CurrentUserID).child(list_user_id)
                                                                             .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
@@ -155,7 +154,7 @@ public class RequestsFragment extends Fragment {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                         if (task.isSuccessful()){
-                                                                                            Toast.makeText(getContext(), "Contact Delete", Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(getContext(), "you have cancelled the chat request.", Toast.LENGTH_SHORT).show();
                                                                                         }
                                                                                     }
                                                                                 });
@@ -175,6 +174,13 @@ public class RequestsFragment extends Fragment {
 
                                             }
                                         });
+                                    }
+                                    else if (type.equals("sent")) {
+                                        Button Accept_friends_req = requestViewHolder.itemView.findViewById(R.id.Accept_friends_req);
+                                        Accept_friends_req.setText("Request Sent");
+
+                                        requestViewHolder.itemView.findViewById(R.id.Cancel_friend_req).setVisibility(View.INVISIBLE);
+
                                     }
                                 }
                             }

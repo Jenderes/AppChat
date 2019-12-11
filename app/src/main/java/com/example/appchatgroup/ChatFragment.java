@@ -81,12 +81,25 @@ public class ChatFragment extends Fragment {
                                          retImage[0] = dataSnapshot.child("image").getValue().toString();
                                         Picasso.get().load(retImage[0]).into(chatsViewHolder.userImage);
                                     }
-
                                     final String retName = dataSnapshot.child("name").getValue().toString();
                                     final String retStatus = dataSnapshot.child("status").getValue().toString();
 
                                     chatsViewHolder.userName.setText(retName);
-                                    chatsViewHolder.userStatus.setText("Last Seen: " + "\n" + "Date" + "Time");
+
+                                    if (dataSnapshot.child("userState").hasChild("state")){
+                                        String date = dataSnapshot.child("userState").child("date").getValue().toString();
+                                        String state = dataSnapshot.child("userState").child("state").getValue().toString();
+                                        String time = dataSnapshot.child("userState").child("time").getValue().toString();
+
+                                        if (state.equals("online")){
+                                            chatsViewHolder.userStatus.setText("Online");
+                                        }
+                                        else if(state.equals("offline")){
+                                            chatsViewHolder.userStatus.setText("Last Seen: " + date + " " + time);
+                                        }
+                                    } else {
+                                        chatsViewHolder.userStatus.setText("offline");
+                                    }
                                     chatsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {

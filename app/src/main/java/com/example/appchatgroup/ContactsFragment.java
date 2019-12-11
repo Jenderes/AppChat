@@ -70,21 +70,38 @@ public class ContactsFragment extends Fragment {
                         UsersRef.child(UserIDs).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.hasChild("image")){
-                                    String profileImage = dataSnapshot.child("image").getValue().toString();
-                                    String profileName = dataSnapshot.child("name").getValue().toString();
-                                    String profileStatus = dataSnapshot.child("status").getValue().toString();
+                                if (dataSnapshot.exists()){
+                                    if (dataSnapshot.child("userState").hasChild("state")){
+                                        String date = dataSnapshot.child("userState").child("date").getValue().toString();
+                                        String state = dataSnapshot.child("userState").child("state").getValue().toString();
+                                        String time = dataSnapshot.child("userState").child("time").getValue().toString();
 
-                                    contacsViewHolder.userName.setText(profileName);
-                                    contacsViewHolder.userStatus.setText(profileStatus);
-                                    Picasso.get().load(profileImage).into(contacsViewHolder.userImage);
+                                        if (state.equals("online")){
+                                            contacsViewHolder.CheckOnline.setVisibility(View.VISIBLE);
+                                        }
+                                        else if(state.equals("offline")){
+                                            contacsViewHolder.CheckOnline.setVisibility(View.INVISIBLE);
+                                        }
+                                    } else {
+                                        contacsViewHolder.CheckOnline.setVisibility(View.INVISIBLE);
+                                    }
 
-                                } else {
-                                    String profileName = dataSnapshot.child("name").getValue().toString();
-                                    String profileStatus = dataSnapshot.child("status").getValue().toString();
+                                    if (dataSnapshot.hasChild("image")){
+                                        String profileImage = dataSnapshot.child("image").getValue().toString();
+                                        String profileName = dataSnapshot.child("name").getValue().toString();
+                                        String profileStatus = dataSnapshot.child("status").getValue().toString();
 
-                                    contacsViewHolder.userName.setText(profileName);
-                                    contacsViewHolder.userStatus.setText(profileStatus);
+                                        contacsViewHolder.userName.setText(profileName);
+                                        contacsViewHolder.userStatus.setText(profileStatus);
+                                        Picasso.get().load(profileImage).into(contacsViewHolder.userImage);
+
+                                    } else {
+                                        String profileName = dataSnapshot.child("name").getValue().toString();
+                                        String profileStatus = dataSnapshot.child("status").getValue().toString();
+
+                                        contacsViewHolder.userName.setText(profileName);
+                                        contacsViewHolder.userStatus.setText(profileStatus);
+                                    }
                                 }
                             }
 
@@ -110,6 +127,7 @@ public class ContactsFragment extends Fragment {
     public static  class  ContacsViewHolder extends RecyclerView.ViewHolder {
         TextView userName,userStatus;
         ImageView userImage;
+        ImageView CheckOnline;
 
         public ContacsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,7 +135,7 @@ public class ContactsFragment extends Fragment {
             userName = itemView.findViewById(R.id.profile_name);
             userStatus = itemView.findViewById(R.id.profile_status);
             userImage = itemView.findViewById(R.id.user_profile_image);
-
+            CheckOnline = itemView.findViewById(R.id.off_on_status);
         }
     }
 }
